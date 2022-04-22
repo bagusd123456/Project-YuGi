@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DragAndDrop : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class DragAndDrop : MonoBehaviour
     public Vector3 defaultPosition;
 
     public RaycastHit2D hit;
+    //public CardData cardDataSO;
 
     
     // Start is called before the first frame update
@@ -66,6 +68,7 @@ public class DragAndDrop : MonoBehaviour
         /*RectTransformUtility.ScreenPointToWorldPointInRectangle((RectTransform)canvas.transform, pointerdata.position,
             canvas.worldCamera, out position3D);*/
 
+        //gameObject.GetComponentInParent<HorizontalLayoutGroup>().enabled = false;
         transform.position = canvas.transform.TransformPoint(position);
     }
 
@@ -77,12 +80,14 @@ public class DragAndDrop : MonoBehaviour
 		if (rayHit.transform)
 		{
             GridData gridData = rayHit.transform.gameObject.GetComponent<GridData>();
-            CardData cardData = gameObject.GetComponent<CardData>();
+            CardData cardData = gameObject.GetComponent<Card>().cardDataSO;
 
             if (rayHit && rayHit.transform.gameObject.CompareTag("Grid") && gridData != null && cardData != null)
             {
                 if (((int)gridData._gridType) == ((int)cardData._cardType) && rayHit.collider.GetType() == typeof(BoxCollider2D))
                 {
+                    //gameObject.GetComponentInParent<HorizontalLayoutGroup>().enabled = true;
+                    //transform.SetParent(rayHit.transform);
                     transform.position = rayHit.transform.position;
                     Debug.Log("On Hit: " + rayHit.transform.name);
                 }
