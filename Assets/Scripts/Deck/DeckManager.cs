@@ -1,36 +1,56 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public CardData[] cardDeck;
-    public CardData[] deckArray;
+    // Just for Debugging
+    [SerializeField] private CardData[] listCardData;
+    private int currentIndex;
 
-    public int deckSize;
-    public int cardId;
-
-    public CardData cardPrefab;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // Current Deck Data
+    private Dictionary<string, List<CardData>> _currentCardDeck = new Dictionary<string, List<CardData>>(){{"Player", new List<CardData>()}, {"Enemy", new List<CardData>()}};
 
     // Update is called once per frame
     void Update()
     {
-        deckArray = GetComponentsInChildren<CardData>();
+        //Debugging Script
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            AddCard("Player",listCardData[currentIndex]);
+            currentIndex++;
+            if (currentIndex == listCardData.Length) currentIndex = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PrintingAllDeckData();
+        }
+    }
+    
+    public void AddCard(string characterType, CardData cardToAdd)
+    {
+        if (!_currentCardDeck.ContainsKey(characterType)) return;
+        
+        _currentCardDeck[characterType].Add(cardToAdd);
     }
 
-    public void AddCard()
+    public CardData[] LoadCard(string nameCharacterType)
     {
-
+        return _currentCardDeck[nameCharacterType].ToArray();
     }
-
-    public void DeleteCard()
+    
+    
+    // Just For Debugging Purpose
+    public void PrintingAllDeckData()
     {
-
+        for (int i = 0; i < _currentCardDeck.Count; i++)
+        {
+            for (int j = 0; j < _currentCardDeck.ElementAt(i).Value.Count; j++)
+            {
+                Debug.Log(_currentCardDeck.ElementAt(i).Value[j].cardName);
+            }
+        }
     }
 }
