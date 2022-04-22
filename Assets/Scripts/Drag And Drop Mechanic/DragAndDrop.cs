@@ -73,32 +73,37 @@ public class DragAndDrop : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
-        GridData gridData = rayHit.transform.gameObject.GetComponent<GridData>();
-        CardData cardData = gameObject.GetComponent<CardData>();
 
-        if (rayHit && rayHit.transform.gameObject.CompareTag("Grid") && gridData != null && cardData != null)
-        {
-            if (((int)gridData._gridType) == ((int)cardData._cardType) && rayHit.collider.GetType() == typeof(BoxCollider2D))
+		if (rayHit.transform)
+		{
+            GridData gridData = rayHit.transform.gameObject.GetComponent<GridData>();
+            CardData cardData = gameObject.GetComponent<CardData>();
+
+            if (rayHit && rayHit.transform.gameObject.CompareTag("Grid") && gridData != null && cardData != null)
             {
-                transform.position = rayHit.transform.position;
-                Debug.Log("On Hit: " + rayHit.transform.name);
+                if (((int)gridData._gridType) == ((int)cardData._cardType) && rayHit.collider.GetType() == typeof(BoxCollider2D))
+                {
+                    transform.position = rayHit.transform.position;
+                    Debug.Log("On Hit: " + rayHit.transform.name);
+                }
+                else if (rayHit.collider.GetType() != typeof(BoxCollider2D))
+                {
+                    transform.position = defaultPosition;
+                    Debug.Log("Cancel");
+                }
+                else
+                {
+                    transform.position = defaultPosition;
+                    Debug.Log("Cancel");
+                }
             }
-            else if(rayHit.collider.GetType()!= typeof(BoxCollider2D))
-            {
+            else {
                 transform.position = defaultPosition;
                 Debug.Log("Cancel");
             }
-            else
-            {
-                transform.position = defaultPosition;
-                Debug.Log("Cancel");
-            }
-        }
-
-        else
-        {
+		}
+		else {
             transform.position = defaultPosition;
-            Debug.Log("Cancel");
         }
     }
 
