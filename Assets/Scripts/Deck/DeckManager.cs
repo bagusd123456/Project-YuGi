@@ -90,11 +90,11 @@ public class DeckManager : MonoBehaviour
         // Automatically Add Card in Child to playerHandArray
         enemyHand = enemyGO.GetComponentsInChildren<Card>();
     }
-    
+
     void LoadCard(List<CardData> characterDeck, GameObject targetGO)
     {
         //If Card on Deck is not 0, get random card from deck to Hand
-        if (characterDeck.Count > 0) 
+        if (characterDeck.Count > 0)
         {
             GameObject card = Instantiate(cardPrefab, targetGO.transform);
             currentIndex = UnityEngine.Random.Range(0, characterDeck.Count);
@@ -118,7 +118,7 @@ public class DeckManager : MonoBehaviour
         //GameObject card = Instantiate(cardPrefab, gameObject.transform);
         //card.GetComponent<Card>().cardDataSO = listCardData[UnityEngine.Random.Range(0, 3)];
         //characterDeck.Add(card.GetComponent<Card>().cardDataSO);
-        if(characterDeck.Count < 40)
+        if (characterDeck.Count < 40)
         {
             characterDeck.Add(listCardData[UnityEngine.Random.Range(0, 3)]);
         }
