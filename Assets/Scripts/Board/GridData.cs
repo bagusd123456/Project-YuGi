@@ -6,5 +6,15 @@ public class GridData : MonoBehaviour
 {
     [Header("Board Parameter")]
     public gridType _gridType = gridType.MONSTER;
-    [SerializeField] public enum gridType { MONSTER, TRAPSPELL};
+    public playerType _playerType = playerType.NULL;
+    public bool isOccupied = false;
+    [SerializeField] public enum gridType { MONSTER, TRAPSPELL, NULL };
+    [SerializeField] public enum playerType { PLAYER1, PLAYER2, NULL };
+    private void FixedUpdate()
+    {
+        if (GetComponentInChildren<Card>() != null)
+            isOccupied = true;
+        else
+            isOccupied = false;
+    }
 }
