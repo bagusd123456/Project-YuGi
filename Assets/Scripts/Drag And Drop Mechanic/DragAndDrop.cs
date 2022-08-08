@@ -10,10 +10,6 @@ using System.Linq;
 
 public class DragAndDrop : MonoBehaviour
 {
-    [SerializeField]
-    private Canvas canvas;
-
-    public Vector3 CurrentMousePosition;
     public Vector3 defaultPosition;
 
     public List<GameObject> gridDataList;
@@ -163,7 +159,6 @@ public class DragAndDrop : MonoBehaviour
 #if CODEv2
     private void Awake()
     {
-        canvas = gameObject.transform.parent.GetComponentInParent<Canvas>();
         deckPanel = transform.parent.gameObject;
         lastParent = transform.parent;
         objectIndex = transform.GetSiblingIndex();
@@ -214,7 +209,7 @@ public class DragAndDrop : MonoBehaviour
         if (canDrag)
         {
             PointerEventData pointerData = (PointerEventData)data;
-            objectIndex = transform.GetSiblingIndex();
+            //objectIndex = transform.GetSiblingIndex();
         }
         
     }
@@ -223,8 +218,10 @@ public class DragAndDrop : MonoBehaviour
     {
         if (canDrag)
         {
-            ViewManager.Instance.HideMenu(ViewManager.Instance.playerDeck);
-
+            if(TurnManager.Instance._turnState == TurnManager.turnState.PLAYERTURN)
+                ViewManager.Instance.HidePlayerMenu();
+            else if(TurnManager.Instance._turnState == TurnManager.turnState.ENEMYTURN)
+                ViewManager.Instance.HideEnemyMenu();
             transform.SetParent(GameObject.Find("Canvas").transform);
             PointerEventData pointerdata = (PointerEventData)data;
 
@@ -258,7 +255,8 @@ public class DragAndDrop : MonoBehaviour
     {
         if (canDrag)
         {
-            ViewManager.Instance.ShowMenu(ViewManager.Instance.playerDeck);
+            //ViewManager.Instance.ShowPlayerMenu();
+            ViewManager.Instance.CheckPhase();
             PointerEventData pointerData = (PointerEventData)data;
 
             Card card = gameObject.GetComponent<Card>();
@@ -267,7 +265,7 @@ public class DragAndDrop : MonoBehaviour
 
             if (gridData != null)
             {
-                DeckManager.Instance.GetIndex();
+                
                 int gridTypeID = (int)gridData._gridType;
                 int cardTypeID = (int)cardData._cardType;
 
@@ -281,6 +279,7 @@ public class DragAndDrop : MonoBehaviour
                     gameObject.GetComponent<RectTransform>().localScale = new Vector3(.7f, .7f, 1);
                     gameObject.GetComponent<RectTransform>().position = gridData.GetComponent<RectTransform>().position;
                     canDrag = false;
+                    DeckManager.Instance.GetIndex();
                     //transform.SetParent(GameObject.Find("Board").GetComponent<Transform>());
                     //Debug.Log("Close to: " + gridData.transform.name);
                 }
@@ -291,6 +290,7 @@ public class DragAndDrop : MonoBehaviour
                     gameObject.GetComponent<RectTransform>().localScale = new Vector3(.7f, .7f, 1);
                     gameObject.GetComponent<RectTransform>().position = gridData.GetComponent<RectTransform>().position;
                     canDrag = false;
+                    DeckManager.Instance.GetIndex();
                     //transform.SetParent(GameObject.Find("Board").GetComponent<Transform>());
                     //Debug.Log("Close to: " + gridData.transform.name);
                 }

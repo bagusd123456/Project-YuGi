@@ -11,7 +11,6 @@ namespace SilentHysteria
     public class BattleSystem : MonoBehaviour
     {
         private static BattleSystem instance;
-
         public static BattleSystem Instance
         {
             get { return instance; }
@@ -61,8 +60,7 @@ namespace SilentHysteria
             if(targetCard != null)
             {
                 targetCard.GetComponent<Image>().color = Color.Lerp(startColor, endColor, Mathf.PingPong(Time.time * speed, 1));
-            }
-                
+            } 
         }
 
         public void Attack()
@@ -104,7 +102,7 @@ namespace SilentHysteria
 
         private void OnDrawGizmos()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //Debug.DrawRay(ray.origin, ray.direction * 10);
         }
     }
